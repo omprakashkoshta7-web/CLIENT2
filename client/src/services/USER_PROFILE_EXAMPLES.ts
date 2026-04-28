@@ -5,13 +5,11 @@
  * इन्हें अपने components में use कर सकते हो।
  */
 
-import userProfileService, {
+import userService, {
   type UserProfile,
   type Address,
   type UpdateProfileData,
-  type NotificationPreferences,
-  type WishlistItem,
-} from './user-profile.service';
+} from './user.service';
 
 // ============================================================================
 // PROFILE MANAGEMENT EXAMPLES
@@ -22,7 +20,7 @@ import userProfileService, {
  */
 export async function exampleGetProfile() {
   try {
-    const response = await userProfileService.getProfile();
+    const response = await userService.getProfile();
     console.log('Profile:', response.data);
     return response.data;
   } catch (error: any) {
@@ -43,7 +41,7 @@ export async function exampleUpdateProfile() {
       gender: 'female',
     };
 
-    const response = await userProfileService.updateProfile(updateData);
+    const response = await userService.updateProfile(updateData);
     console.log('Profile updated:', response.data);
     return response.data;
   } catch (error: any) {
@@ -68,7 +66,7 @@ export async function exampleUploadAvatar(file: File) {
       throw new Error('Invalid file type. Only JPG, PNG, GIF, WebP allowed');
     }
 
-    const response = await userProfileService.uploadAvatar(file);
+    const response = await userService.uploadAvatar(file);
     console.log('Avatar uploaded:', response.data.avatar);
     return response.data;
   } catch (error: any) {
@@ -82,7 +80,7 @@ export async function exampleUploadAvatar(file: File) {
  */
 export async function exampleUpdateNotifications() {
   try {
-    const preferences: NotificationPreferences = {
+    const preferences: UpdateProfileData['preferences'] = {
       notifications: true,
       newsletter: false,
       push: true,
@@ -94,7 +92,7 @@ export async function exampleUpdateNotifications() {
       },
     };
 
-    const response = await userProfileService.updateNotificationPreferences(preferences);
+    const response = await userService.updateNotificationPreferences(preferences);
     console.log('Notifications updated:', response.data);
     return response.data;
   } catch (error: any) {
@@ -108,7 +106,7 @@ export async function exampleUpdateNotifications() {
  */
 export async function exampleRequestDataExport() {
   try {
-    const response = await userProfileService.requestDataExport({
+    const response = await userService.requestDataExport({
       reason: 'Moving to another platform',
     });
 
@@ -126,7 +124,7 @@ export async function exampleRequestDataExport() {
  */
 export async function exampleRequestAccountDeletion() {
   try {
-    const response = await userProfileService.requestAccountDeletion({
+    const response = await userService.requestAccountDeletion({
       reason: 'Not using the service anymore',
     });
 
@@ -155,7 +153,7 @@ export async function exampleRequestAccountDeletion() {
  */
 export async function exampleGetAllAddresses() {
   try {
-    const response = await userProfileService.getAllAddresses();
+    const response = await userService.getAllAddresses();
     console.log('Addresses:', response.data);
 
     // Find default address
@@ -190,7 +188,7 @@ export async function exampleAddAddress() {
       isDefault: false,
     };
 
-    const response = await userProfileService.addAddress(newAddress);
+    const response = await userService.addAddress(newAddress);
     console.log('Address added:', response.data);
     return response.data;
   } catch (error: any) {
@@ -210,7 +208,7 @@ export async function exampleUpdateAddress(addressId: string) {
       line1: '789 New Street',
     };
 
-    const response = await userProfileService.updateAddress(addressId, updateData);
+    const response = await userService.updateAddress(addressId, updateData);
     console.log('Address updated:', response.data);
     return response.data;
   } catch (error: any) {
@@ -236,7 +234,7 @@ export async function exampleUpdateGPSLocation(addressId: string) {
       );
     });
 
-    const response = await userProfileService.updateGPSLocation(addressId, {
+    const response = await userService.updateGPSLocation(addressId, {
       lat: position.latitude,
       lng: position.longitude,
     });
@@ -254,7 +252,7 @@ export async function exampleUpdateGPSLocation(addressId: string) {
  */
 export async function exampleDeleteAddress(addressId: string) {
   try {
-    const response = await userProfileService.deleteAddress(addressId);
+    const response = await userService.deleteAddress(addressId);
     console.log('Address deleted successfully');
     return response.data;
   } catch (error: any) {
@@ -276,7 +274,7 @@ export async function exampleDeleteAddress(addressId: string) {
  */
 export async function exampleGetWishlist() {
   try {
-    const response = await userProfileService.getWishlist();
+    const response = await userService.getWishlist();
     console.log('Wishlist items:', response.data);
     console.log('Total items:', response.data.length);
     return response.data;
@@ -291,7 +289,7 @@ export async function exampleGetWishlist() {
  */
 export async function exampleAddToWishlist(productId: string, productType?: string) {
   try {
-    const response = await userProfileService.addToWishlist(
+    const response = await userService.addToWishlist(
       productId,
       (productType as any) || 'gifting'
     );
@@ -314,7 +312,7 @@ export async function exampleAddToWishlist(productId: string, productType?: stri
  */
 export async function exampleRemoveFromWishlist(productId: string) {
   try {
-    const response = await userProfileService.removeFromWishlist(productId);
+    const response = await userService.removeFromWishlist(productId);
     console.log('Product removed from wishlist');
     console.log('Total items in wishlist:', response.data.length);
     return response.data;
@@ -340,7 +338,7 @@ export async function exampleClearWishlist() {
       return;
     }
 
-    const response = await userProfileService.clearWishlist();
+    const response = await userService.clearWishlist();
     console.log('Wishlist cleared successfully');
     return response.data;
   } catch (error: any) {
@@ -366,19 +364,19 @@ export async function exampleCompleteProfileSetup(
 
     // Step 1: Update profile
     console.log('Step 1: Updating profile...');
-    await userProfileService.updateProfile(profileData);
+    await userService.updateProfile(profileData);
 
     // Step 2: Upload avatar
     console.log('Step 2: Uploading avatar...');
-    await userProfileService.uploadAvatar(avatarFile);
+    await userService.uploadAvatar(avatarFile);
 
     // Step 3: Add address
     console.log('Step 3: Adding address...');
-    await userProfileService.addAddress(addressData);
+    await userService.addAddress(addressData);
 
     // Step 4: Update notifications
     console.log('Step 4: Updating notification preferences...');
-    await userProfileService.updateNotificationPreferences({
+    await userService.updateNotificationPreferences({
       notifications: true,
       push: true,
       whatsapp: true,
@@ -400,7 +398,7 @@ export async function exampleBatchAddAddresses(addresses: any[]) {
 
     for (let i = 0; i < addresses.length; i++) {
       console.log(`Adding address ${i + 1} of ${addresses.length}...`);
-      const response = await userProfileService.addAddress(addresses[i]);
+      const response = await userService.addAddress(addresses[i]);
       results.push(response.data);
 
       // Add small delay to avoid rate limiting
@@ -420,7 +418,7 @@ export async function exampleBatchAddAddresses(addresses: any[]) {
  */
 export async function exampleSearchWishlist(searchProductId: string) {
   try {
-    const wishlist = await userProfileService.getWishlist();
+    const wishlist = await userService.getWishlist();
     const found = wishlist.data.find((item) => item.productId === searchProductId);
 
     if (found) {
@@ -441,7 +439,7 @@ export async function exampleSearchWishlist(searchProductId: string) {
  */
 export async function exampleGetDefaultAddress() {
   try {
-    const addresses = await userProfileService.getAllAddresses();
+    const addresses = await userService.getAllAddresses();
     const defaultAddress = addresses.data.find((addr) => addr.isDefault);
 
     if (defaultAddress) {
@@ -462,7 +460,7 @@ export async function exampleGetDefaultAddress() {
  */
 export async function exampleSetAddressAsDefault(addressId: string) {
   try {
-    const response = await userProfileService.updateAddress(addressId, {
+    const response = await userService.updateAddress(addressId, {
       isDefault: true,
     });
 
@@ -481,7 +479,7 @@ export async function exampleExportUserData() {
   try {
     console.log('Requesting data export...');
 
-    const response = await userProfileService.requestDataExport({
+    const response = await userService.requestDataExport({
       reason: 'User requested data export',
     });
 
@@ -520,7 +518,7 @@ export async function exampleDeleteAccountWithConfirmation() {
 
     // Step 2: Request deletion
     console.log('Requesting account deletion...');
-    const response = await userProfileService.requestAccountDeletion({
+    const response = await userService.requestAccountDeletion({
       reason: 'User requested account deletion',
     });
 
@@ -540,3 +538,4 @@ export async function exampleDeleteAccountWithConfirmation() {
     throw error;
   }
 }
+

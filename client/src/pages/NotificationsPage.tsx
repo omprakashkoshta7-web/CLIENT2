@@ -88,8 +88,8 @@ const NotificationsPage: React.FC = () => {
   }
 
   // Category icon mapping
-  const getCategoryIcon = (category: string) => {
-    const iconMap: Record<string, { icon: JSX.Element; bg: string }> = {
+  const getCategoryIcon = (category: string): { icon: React.ReactNode; bg: string } => {
+    const iconMap: Record<string, { icon: React.ReactNode; bg: string }> = {
       orders: {
         icon: <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>,
         bg: '#dbeafe'

@@ -5,6 +5,7 @@ import { API_CONFIG } from '../config/api.config';
 export interface UserProfile {
   userId: string;
   name?: string;
+  email?: string;
   phone?: string;
   avatar?: string;
   dateOfBirth?: string;

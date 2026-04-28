@@ -79,22 +79,22 @@ const SimpleDesignEditorPage: React.FC = () => {
   }, [productId, navigate]);
 
   // STEP 3: Load frame image as background
-  const loadFrameImage = (targetCanvas: fabric.Canvas, imageUrl: string) => {
+  const loadFrameImage = (targetCanvas: fabric.Canvas, imageUrl: string): void => {
     fabric.Image.fromURL(imageUrl, { crossOrigin: 'anonymous' })
       .then((img: any) => {
         // Scale image to fit canvas
         const scale = Math.min(
-          targetCanvas.width / img.width,
-          targetCanvas.height / img.height
+          targetCanvas.width! / img.width,
+          targetCanvas.height! / img.height
         );
         img.scale(scale);
         img.set({
-          left: (targetCanvas.width - img.width * scale) / 2,
-          top: (targetCanvas.height - img.height * scale) / 2,
+          left: (targetCanvas.width! - img.width * scale) / 2,
+          top: (targetCanvas.height! - img.height * scale) / 2,
           selectable: false,
           evented: false,
         });
-        targetCanvas.setBackgroundImage(img, targetCanvas.renderAll.bind(targetCanvas));
+        targetCanvas.setBackgroundImage(img as fabric.Image, targetCanvas.renderAll.bind(targetCanvas));
       })
       .catch((err) => {
         console.warn('Failed to load frame image:', err);

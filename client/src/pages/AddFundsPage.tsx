@@ -97,13 +97,13 @@ const AddFundsPage: React.FC = () => {
       }
 
       // Extract payment details with multiple fallback paths
-      const keyId = paymentData?.keyId || paymentData?.data?.keyId || paymentData?.key_id || paymentData?.key;
-      const razorpayOrderId = paymentData?.razorpayOrderId || paymentData?.data?.razorpayOrderId || 
-                             paymentData?.razorpay_order_id || paymentData?.orderId || paymentData?.data?.orderId;
-      const amountInPaise = paymentData?.amount || paymentData?.data?.amount || Math.round(total * 100);
-      const currency = paymentData?.currency || paymentData?.data?.currency || 'INR';
-      const clientSideFallback = !!(paymentData?.clientSideFallback || paymentData?.data?.clientSideFallback);
-      const mock = !!(paymentData?.mock || paymentData?.data?.mock);
+      const keyId = (paymentData as any)?.keyId || (paymentData as any)?.data?.keyId || (paymentData as any)?.key_id || (paymentData as any)?.key;
+      const razorpayOrderId = (paymentData as any)?.razorpayOrderId || (paymentData as any)?.data?.razorpayOrderId || 
+                             (paymentData as any)?.razorpay_order_id || (paymentData as any)?.orderId || (paymentData as any)?.data?.orderId;
+      const amountInPaise = (paymentData as any)?.amount || (paymentData as any)?.data?.amount || Math.round(total * 100);
+      const currency = (paymentData as any)?.currency || (paymentData as any)?.data?.currency || 'INR';
+      const clientSideFallback = !!((paymentData as any)?.clientSideFallback || (paymentData as any)?.data?.clientSideFallback);
+      const mock = !!((paymentData as any)?.mock || (paymentData as any)?.data?.mock);
 
       console.log('💳 Payment details extracted:', {
         keyId,

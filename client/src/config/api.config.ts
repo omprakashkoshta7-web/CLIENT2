@@ -94,9 +94,13 @@ export const API_CONFIG = {
 
       BUSINESS_PRINTING: {
         HOME: '/api/business-printing/home',
+        TYPES: '/api/business-printing/types',
         CATEGORIES: '/api/business-printing/categories',
         PRODUCTS: '/api/business-printing/products',
-        PRODUCT_BY_ID: (id: string) => `/api/business-printing/products/${id}`
+        PRODUCT_BY_ID: (id: string) => `/api/business-printing/products/${id}`,
+        CONFIGURE: '/api/business-printing/configure',
+        CONFIG_BY_ID: (id: string) => `/api/business-printing/config/${id}`,
+        PICKUP_LOCATIONS: '/api/business-printing/pickup-locations'
       }
     },
 
@@ -117,7 +121,20 @@ export const API_CONFIG = {
       UPDATE: (id: string) => `/api/cart/${id}`,
       REMOVE: (id: string) => `/api/cart/${id}`,
       CLEAR: '/api/cart/clear',
-      CHECKOUT: '/api/cart/checkout'
+      CHECKOUT: '/api/cart/checkout',
+      PRINTING_GET: '/api/cart/printing',
+      PRINTING_ADD: '/api/cart/printing/add',
+      PRINTING_UPDATE: (id: string) => `/api/cart/printing/${id}`,
+      PRINTING_REMOVE: (id: string) => `/api/cart/printing/${id}`,
+      PRINTING_CLEAR: '/api/cart/printing/clear',
+      PRINTING_COUPON: '/api/cart/printing/coupon',
+      GIFTING_GET: '/api/cart/gifting',
+      GIFTING_ADD: '/api/cart/gifting/add',
+      GIFTING_REMOVE: (id: string) => `/api/cart/gifting/${id}`,
+      SHOPPING_GET: '/api/cart/shopping',
+      SHOPPING_ADD: '/api/cart/shopping/add',
+      SHOPPING_REMOVE: (id: string) => `/api/cart/shopping/${id}`,
+      COUPON: '/api/cart/coupon'
     },
 
     // Design endpoints

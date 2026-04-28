@@ -33,117 +33,124 @@ const WalletAPIDemo: React.FC = () => {
   };
 
   // 1. Get Wallet Balance - Current balance dekhna
-  const testGetBalance = async () => {
+  const testGetBalance = async (): Promise<void> => {
     setApiLoading('balance', true);
     try {
       const response = await walletService.getBalance();
       setBalance(response.data);
       setApiResult('balance', response);
       console.log('✅ Get Balance API:', response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
       console.error('❌ Get Balance API failed:', error);
-      setApiResult('balance', { error: error.message });
+      setApiResult('balance', { error: errorMessage });
     } finally {
       setApiLoading('balance', false);
     }
   };
 
   // 2. Get Wallet Overview - Detailed stats (total spent, refunds)
-  const testGetOverview = async () => {
+  const testGetOverview = async (): Promise<void> => {
     setApiLoading('overview', true);
     try {
       const response = await walletService.getOverview();
       setOverview(response.data);
       setApiResult('overview', response);
       console.log('✅ Get Overview API:', response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
       console.error('❌ Get Overview API failed:', error);
-      setApiResult('overview', { error: error.message });
+      setApiResult('overview', { error: errorMessage });
     } finally {
       setApiLoading('overview', false);
     }
   };
 
   // 3. Get Wallet Ledger - Transaction history (paginated)
-  const testGetLedger = async () => {
+  const testGetLedger = async (): Promise<void> => {
     setApiLoading('ledger', true);
     try {
       const response = await walletService.getLedger({ page: 1, limit: 5 });
       setLedger(response.data);
       setApiResult('ledger', response);
       console.log('✅ Get Ledger API:', response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
       console.error('❌ Get Ledger API failed:', error);
-      setApiResult('ledger', { error: error.message });
+      setApiResult('ledger', { error: errorMessage });
     } finally {
       setApiLoading('ledger', false);
     }
   };
 
   // 4. Get Topup Config - Topup options aur limits
-  const testGetTopupConfig = async () => {
+  const testGetTopupConfig = async (): Promise<void> => {
     setApiLoading('topupConfig', true);
     try {
       const response = await walletService.getTopupConfig();
       setTopupConfig(response.data);
       setApiResult('topupConfig', response);
       console.log('✅ Get Topup Config API:', response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
       console.error('❌ Get Topup Config API failed:', error);
-      setApiResult('topupConfig', { error: error.message });
+      setApiResult('topupConfig', { error: errorMessage });
     } finally {
       setApiLoading('topupConfig', false);
     }
   };
 
   // 5. Preview Topup - Topup amount + fees calculate karna
-  const testPreviewTopup = async () => {
+  const testPreviewTopup = async (): Promise<void> => {
     setApiLoading('previewTopup', true);
     try {
       const response = await walletService.previewTopup(previewAmount);
       setTopupPreview(response.data);
       setApiResult('previewTopup', response);
       console.log('✅ Preview Topup API:', response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
       console.error('❌ Preview Topup API failed:', error);
-      setApiResult('previewTopup', { error: error.message });
+      setApiResult('previewTopup', { error: errorMessage });
     } finally {
       setApiLoading('previewTopup', false);
     }
   };
 
   // 6. Add Funds - Wallet mein paise add karna
-  const testAddFunds = async () => {
+  const testAddFunds = async (): Promise<void> => {
     setApiLoading('addFunds', true);
     try {
       const response = await walletService.addFunds(50, 'test_payment');
       setApiResult('addFunds', response);
       console.log('✅ Add Funds API:', response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
       console.error('❌ Add Funds API failed:', error);
-      setApiResult('addFunds', { error: error.message });
+      setApiResult('addFunds', { error: errorMessage });
     } finally {
       setApiLoading('addFunds', false);
     }
   };
 
   // 7. Initiate Razorpay - Razorpay payment start karna
-  const testInitiateRazorpay = async () => {
+  const testInitiateRazorpay = async (): Promise<void> => {
     setApiLoading('initiateRazorpay', true);
     try {
       const response = await walletService.initiateRazorpay(100);
       setApiResult('initiateRazorpay', response);
       console.log('✅ Initiate Razorpay API:', response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
       console.error('❌ Initiate Razorpay API failed:', error);
-      setApiResult('initiateRazorpay', { error: error.message });
+      setApiResult('initiateRazorpay', { error: errorMessage });
     } finally {
       setApiLoading('initiateRazorpay', false);
     }
   };
 
   // 8. Verify Razorpay - Payment verify karke wallet credit karna
-  const testVerifyRazorpay = async () => {
+  const testVerifyRazorpay = async (): Promise<void> => {
     setApiLoading('verifyRazorpay', true);
     try {
       const response = await walletService.verifyRazorpay(
@@ -153,16 +160,17 @@ const WalletAPIDemo: React.FC = () => {
       );
       setApiResult('verifyRazorpay', response);
       console.log('✅ Verify Razorpay API:', response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
       console.error('❌ Verify Razorpay API failed:', error);
-      setApiResult('verifyRazorpay', { error: error.message });
+      setApiResult('verifyRazorpay', { error: errorMessage });
     } finally {
       setApiLoading('verifyRazorpay', false);
     }
   };
 
   // 9. Transaction History - Pura transaction log
-  const testTransactionHistory = async () => {
+  const testTransactionHistory = async (): Promise<void> => {
     setApiLoading('transactionHistory', true);
     try {
       const response = await walletService.getTransactionHistory({ 
@@ -172,16 +180,17 @@ const WalletAPIDemo: React.FC = () => {
       });
       setApiResult('transactionHistory', response);
       console.log('✅ Transaction History API:', response);
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
       console.error('❌ Transaction History API failed:', error);
-      setApiResult('transactionHistory', { error: error.message });
+      setApiResult('transactionHistory', { error: errorMessage });
     } finally {
       setApiLoading('transactionHistory', false);
     }
   };
 
   // Test all APIs
-  const testAllAPIs = async () => {
+  const testAllAPIs = async (): Promise<void> => {
     console.log('🚀 Testing all 9 Wallet & Finance APIs...');
     await Promise.all([
       testGetBalance(),

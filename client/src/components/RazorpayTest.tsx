@@ -14,7 +14,7 @@ const RazorpayTest: React.FC = () => {
     return env.VITE_RAZORPAY_KEY_ID || env.VITE_RAZORPAY_KEY || 'Not configured';
   };
 
-  const testPaymentFlow = async () => {
+  const testPaymentFlow = async (): Promise<void> => {
     setLoading(true);
     setError('');
     setResult(null);
@@ -30,7 +30,7 @@ const RazorpayTest: React.FC = () => {
         console.log('✅ Wallet service success:', walletResponse);
         setResult({ service: 'wallet', response: walletResponse, envKey: getEnvRazorpayKey() });
         return;
-      } catch (walletErr) {
+      } catch (walletErr: unknown) {
         console.log('❌ Wallet service failed:', walletErr);
       }
 
@@ -41,7 +41,7 @@ const RazorpayTest: React.FC = () => {
         console.log('✅ Finance service success:', financeResponse);
         setResult({ service: 'finance', response: financeResponse, envKey: getEnvRazorpayKey() });
         return;
-      } catch (financeErr) {
+      } catch (financeErr: unknown) {
         console.log('❌ Finance service failed:', financeErr);
       }
 
@@ -56,7 +56,7 @@ const RazorpayTest: React.FC = () => {
         console.log('✅ Payment service success:', paymentResponse);
         setResult({ service: 'payment', response: paymentResponse, envKey: getEnvRazorpayKey() });
         return;
-      } catch (paymentErr) {
+      } catch (paymentErr: unknown) {
         console.log('❌ Payment service failed:', paymentErr);
         throw paymentErr;
       }
@@ -69,7 +69,7 @@ const RazorpayTest: React.FC = () => {
     }
   };
 
-  const testRealPayment = async () => {
+  const testRealPayment = async (): Promise<void> => {
     setLoading(true);
     setError('');
     setResult(null);
@@ -127,7 +127,7 @@ const RazorpayTest: React.FC = () => {
     }
   };
 
-  const testMockPayment = async () => {
+  const testMockPayment = async (): Promise<void> => {
     setLoading(true);
     setError('');
     setResult(null);
@@ -162,7 +162,7 @@ const RazorpayTest: React.FC = () => {
         
         console.log('✅ Mock checkout result:', checkoutResult);
         setResult(prev => ({ ...prev, checkoutResult }));
-      } catch (checkoutErr) {
+      } catch (checkoutErr: unknown) {
         console.log('ℹ️ Mock checkout handled:', checkoutErr);
         // Mock checkout will return mock data
         const mockCheckoutResult = {

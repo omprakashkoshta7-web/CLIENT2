@@ -566,6 +566,172 @@ class ProductService {
     console.log('⚠️ [Product Service] Using deprecated getShoppingProducts method. Use getProductsByFlowType("shopping") instead.');
     return this.getProductsByFlowType('shopping', params);
   }
+
+  /**
+   * Get business printing products
+   */
+  async getBusinessProducts(params?: {
+    page?: number;
+    limit?: number;
+    category?: string;
+    type?: string;
+    search?: string;
+  }): Promise<ApiResponse<ProductsResponse>> {
+    try {
+      console.log('🚀 [Product Service] Fetching business printing products with params:', params);
+      
+      const response = await productionApiClient.get<ApiResponse<ProductsResponse>>(
+        API_CONFIG.ENDPOINTS.PRODUCTS.BUSINESS_PRINTING.PRODUCTS,
+        { params }
+      );
+      
+      console.log('✅ [Product Service] Business products response:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ [Product Service] Failed to fetch business products:', error);
+      
+      // Fallback: return empty products response
+      return {
+        success: false,
+        data: {
+          products: [],
+          meta: {
+            page: params?.page || 1,
+            limit: params?.limit || 10,
+            total: 0,
+            totalPages: 0
+          }
+        },
+        message: error.message || 'Failed to fetch business products'
+      };
+    }
+  }
+
+  /**
+   * Get printing document types
+   */
+  async getPrintingDocumentTypes(): Promise<ApiResponse<any[]>> {
+    try {
+      console.log('🚀 [Product Service] Fetching printing document types...');
+      
+      const response = await productionApiClient.get<ApiResponse<any[]>>(
+        '/api/printing/document-types'
+      );
+      
+      console.log('✅ [Product Service] Document types response:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ [Product Service] Failed to fetch document types:', error);
+      
+      // Fallback: return empty array
+      return {
+        success: false,
+        data: [],
+        message: error.message || 'Failed to fetch document types'
+      };
+    }
+  }
+
+  /**
+   * Get nearby vendor stores
+   */
+  async getNearbyVendorStores(params?: {
+    lat?: number;
+    lng?: number;
+    radius?: number;
+    pincode?: string;
+  }): Promise<ApiResponse<any[]>> {
+    try {
+      console.log('🚀 [Product Service] Fetching nearby vendor stores with params:', params);
+      
+      const response = await productionApiClient.get<ApiResponse<any[]>>(
+        '/api/vendor/nearby-stores',
+        { params }
+      );
+      
+      console.log('✅ [Product Service] Nearby stores response:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ [Product Service] Failed to fetch nearby stores:', error);
+      
+      // Fallback: return empty array
+      return {
+        success: false,
+        data: [],
+        message: error.message || 'Failed to fetch nearby stores'
+      };
+    }
+  }
+
+  /**
+   * Get uploaded files
+   */
+  async getUploadedFiles(): Promise<ApiResponse<any[]>> {
+    try {
+      console.log('🚀 [Product Service] Fetching uploaded files...');
+      
+      const response = await productionApiClient.get<ApiResponse<any[]>>(
+        '/api/products/printing/files'
+      );
+      
+      console.log('✅ [Product Service] Uploaded files response:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ [Product Service] Failed to fetch uploaded files:', error);
+      
+      // Fallback: return empty array
+      return {
+        success: false,
+        data: [],
+        message: error.message || 'Failed to fetch uploaded files'
+      };
+    }
+  }
+
+  /**
+   * Upload files
+   */
+  async uploadFiles(formData: FormData): Promise<ApiResponse<any[]>> {
+    try {
+      console.log('🚀 [Product Service] Uploading files...');
+      
+      const response = await productionApiClient.post<ApiResponse<any[]>>(
+        '/api/products/printing/upload',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      
+      console.log('✅ [Product Service] Files uploaded:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ [Product Service] Failed to upload files:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Save business print configuration
+   */
+  async saveBusinessPrintConfig(data: any): Promise<ApiResponse<any>> {
+    try {
+      console.log('🚀 [Product Service] Saving business print config:', data);
+      
+      const response = await productionApiClient.post<ApiResponse<any>>(
+        API_CONFIG.ENDPOINTS.PRODUCTS.BUSINESS_PRINTING.CONFIGURE,
+        data
+      );
+      
+      console.log('✅ [Product Service] Business print config saved:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ [Product Service] Failed to save business print config:', error);
+      throw error;
+    }
+  }
 }
 
 // Export singleton instance

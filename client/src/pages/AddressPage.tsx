@@ -36,7 +36,7 @@ const AddressPage: React.FC = () => {
     try {
       setLoading(true);
       const response = await userService.getAddresses();
-      const addressesData = response.data?.addresses || response.addresses || response.data || [];
+      const addressesData = Array.isArray(response.data) ? response.data : [];
       setAddresses(Array.isArray(addressesData) ? addressesData : []);
     } catch (err: any) {
       console.error('Failed to fetch addresses:', err);
@@ -53,8 +53,10 @@ const AddressPage: React.FC = () => {
       phone: addr.phone || '',
       house: addr.houseNo || addr.house || '',
       area: addr.area || '',
+      landmark: addr.landmark || '',
       pincode: addr.pincode || '',
-      type: addr.label || 'Home'
+      type: addr.label || 'Home',
+      isDefault: addr.isDefault || false
     });
   };
 
@@ -66,15 +68,15 @@ const AddressPage: React.FC = () => {
   const handleSaveEdit = async (id: string) => {
     try {
       setSavingId(id);
-      const formattedAddress = {
-        label: editForm.type,
+      const formattedAddress: any = {
+        label: editForm.type as 'Home' | 'Office' | 'Other',
         fullName: editForm.name.trim(),
         phone: editForm.phone.trim(),
         houseNo: editForm.house.trim(),
         area: editForm.area.trim(),
-        landmark: editForm.landmark?.trim() || '',
+        landmark: (editForm.landmark || '').trim(),
         line1: `${editForm.house.trim()}, ${editForm.area.trim()}`,
-        line2: editForm.landmark?.trim() || '',
+        line2: (editForm.landmark || '').trim(),
         city: 'Mumbai',
         state: 'Maharashtra',
         pincode: editForm.pincode.trim(),
@@ -118,23 +120,23 @@ const AddressPage: React.FC = () => {
 
     try {
       setSavingId('new');
-      const formattedAddress = {
-        label: newAddressForm.type,
+      const formattedAddress: any = {
+        label: newAddressForm.type as 'Home' | 'Office' | 'Other',
         fullName: newAddressForm.name.trim(),
         phone: newAddressForm.phone.trim(),
         houseNo: newAddressForm.house.trim(),
         area: newAddressForm.area.trim(),
-        landmark: newAddressForm.landmark?.trim() || '',
+        landmark: ((newAddressForm as any).landmark || '').trim(),
         line1: `${newAddressForm.house.trim()}, ${newAddressForm.area.trim()}`,
-        line2: newAddressForm.landmark?.trim() || '',
+        line2: ((newAddressForm as any).landmark || '').trim(),
         city: 'Mumbai',
         state: 'Maharashtra',
         pincode: newAddressForm.pincode.trim(),
         country: 'India',
-        isDefault: newAddressForm.isDefault || false,
+        isDefault: ((newAddressForm as any).isDefault || false),
       };
 
-      const response = await userService.addAddress(formattedAddress);
+      await userService.addAddress(formattedAddress);
       await fetchAddresses();
       setShowAddForm(false);
       setNewAddressForm({
