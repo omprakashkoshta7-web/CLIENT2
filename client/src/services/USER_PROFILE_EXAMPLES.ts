@@ -6,8 +6,6 @@
  */
 
 import userService, {
-  type UserProfile,
-  type Address,
   type UpdateProfileData,
 } from './user.service';
 
@@ -123,8 +121,8 @@ export async function exampleRequestAccountDeletion() {
   try {
     const response = await userService.requestAccountDeletion('Not using the service anymore');
 
-    console.log('Account deletion requested:', response.data);
-    return response.data;
+    console.log('Account deletion requested:', response.data || response);
+    return response.data || response;
   } catch (error: any) {
     console.error('Failed to request account deletion:', error.response?.data?.message);
     throw error;
@@ -243,7 +241,7 @@ export async function exampleDeleteAddress(addressId: string) {
   try {
     const response = await userService.deleteAddress(addressId);
     console.log('Address deleted successfully');
-    return response.data;
+    return response;
   } catch (error: any) {
     if (error.response?.status === 404) {
       console.error('Address not found');
@@ -429,7 +427,7 @@ export async function exampleSearchWishlist(searchProductId: string) {
 export async function exampleGetDefaultAddress() {
   try {
     const addresses = await userService.getAddresses();
-    const defaultAddress = addresses.data.find((addr: any) => addr.isDefault);
+    const defaultAddress = addresses.data?.find((addr: any) => addr.isDefault);
 
     if (defaultAddress) {
       console.log('Default address:', defaultAddress);
@@ -470,9 +468,9 @@ export async function exampleExportUserData() {
 
     const response = await userService.requestDataExport();
 
-    console.log('Export status:', response.data);
+    console.log('Export status:', response.data || response);
 
-    return response.data;
+    return response.data || response;
   } catch (error: any) {
     console.error('Failed to export data:', error.message);
     throw error;

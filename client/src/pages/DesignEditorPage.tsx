@@ -331,7 +331,7 @@ const DesignEditorPage: React.FC = () => {
     
     // Load product image as frame with proper scaling
     if (product?.thumbnail || product?.image) {
-      const imageUrl = product.thumbnail || product.image;
+      const imageUrl = (product.thumbnail || product.image)!;
       fabric.Image.fromURL(imageUrl, { crossOrigin: 'anonymous' }).then((img: any) => {
         // STEP 1: Canvas size ko frame ke hisaab se set karo
         const maxWidth = 900;
@@ -394,7 +394,7 @@ const DesignEditorPage: React.FC = () => {
     } else {
       // Load product image as background with proper scaling
       if (product?.thumbnail || product?.image) {
-        const imageUrl = product.thumbnail || product.image;
+        const imageUrl = (product.thumbnail || product.image)!;
         await new Promise<void>((resolve) => {
           fabric.Image.fromURL(imageUrl, { crossOrigin: 'anonymous' }).then((img: any) => {
             targetCanvas.clear();
