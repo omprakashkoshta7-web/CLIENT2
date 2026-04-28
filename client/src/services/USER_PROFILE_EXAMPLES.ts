@@ -263,7 +263,7 @@ export async function exampleGetWishlist() {
   try {
     const response = await userService.getWishlist();
     console.log('Wishlist items:', response.data);
-    console.log('Total items:', response.data.length);
+    console.log('Total items:', response.data?.length);
     return response.data;
   } catch (error: any) {
     console.error('Failed to get wishlist:', error.response?.data?.message);
@@ -282,7 +282,7 @@ export async function exampleAddToWishlist(productId: string, productType?: stri
     );
 
     console.log('Product added to wishlist');
-    console.log('Total items in wishlist:', response.data.length);
+    console.log('Total items in wishlist:', response.data?.length);
     return response.data;
   } catch (error: any) {
     if (error.response?.status === 409) {
