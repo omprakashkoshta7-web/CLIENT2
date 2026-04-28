@@ -6,11 +6,11 @@
  */
 
 import userProfileService, {
-  UserProfile,
-  Address,
-  UpdateProfileData,
-  NotificationPreferences,
-  WishlistItem,
+  type UserProfile,
+  type Address,
+  type UpdateProfileData,
+  type NotificationPreferences,
+  type WishlistItem,
 } from './user-profile.service';
 
 // ============================================================================

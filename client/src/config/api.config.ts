@@ -37,7 +37,10 @@ export const API_CONFIG = {
       REGISTER: '/api/auth/register',
       VERIFY: '/api/auth/verify',
       PROFILE: '/api/auth/me',
-      GOOGLE_VERIFY: '/api/auth/google-verify'
+      GOOGLE_VERIFY: '/api/auth/google-verify',
+      SEND_PHONE_OTP: '/api/auth/send-phone-otp',
+      VERIFY_PHONE_OTP: '/api/auth/verify-phone-otp',
+      ME: '/api/auth/me'
     },
 
     // Product endpoints (confirmed working)
@@ -65,11 +68,35 @@ export const API_CONFIG = {
       },
       
       GIFTING: {
+        HOME: '/api/gifting/home',
+        CATEGORIES: '/api/gifting/categories',
+        PRODUCTS: '/api/gifting/products',
+        SEARCH: '/api/gifting/search',
         PRODUCT_BY_ID: (id: string) => `/api/gifting/products/${id}`
       },
       
       SHOPPING: {
+        HOME: '/api/shopping/home',
+        CATEGORIES: '/api/shopping/categories',
+        PRODUCTS: '/api/shopping/products',
+        SEARCH: '/api/shopping/search',
+        DEALS: '/api/shopping/deals',
+        TRENDING: '/api/shopping/trending',
         PRODUCT_BY_ID: (id: string) => `/api/shopping/products/${id}`
+      },
+
+      PRINTING: {
+        HOME: '/api/printing/home',
+        CATEGORIES: '/api/printing/categories',
+        PRODUCTS: '/api/printing/products',
+        PRODUCT_BY_ID: (id: string) => `/api/printing/products/${id}`
+      },
+
+      BUSINESS_PRINTING: {
+        HOME: '/api/business-printing/home',
+        CATEGORIES: '/api/business-printing/categories',
+        PRODUCTS: '/api/business-printing/products',
+        PRODUCT_BY_ID: (id: string) => `/api/business-printing/products/${id}`
       }
     },
 
@@ -83,6 +110,16 @@ export const API_CONFIG = {
       CART_ITEM: (id: string) => `/api/orders/cart/${id}`
     },
 
+    // Cart endpoints
+    CART: {
+      GET: '/api/cart',
+      ADD: '/api/cart/add',
+      UPDATE: (id: string) => `/api/cart/${id}`,
+      REMOVE: (id: string) => `/api/cart/${id}`,
+      CLEAR: '/api/cart/clear',
+      CHECKOUT: '/api/cart/checkout'
+    },
+
     // Design endpoints
     DESIGN: {
       TEMPLATES: '/api/design/templates',
@@ -92,11 +129,75 @@ export const API_CONFIG = {
       FRAMES: (productId: string) => `/api/design/frames/${productId}`
     },
 
+    // Design endpoints (alias for services using DESIGNS)
+    DESIGNS: {
+      TEMPLATES: '/api/design/templates',
+      TEMPLATES_PREMIUM: '/api/design/templates/premium',
+      FROM_TEMPLATE: '/api/design/from-template',
+      BLANK: '/api/design/blank',
+      SAVE: '/api/design/save',
+      MY_DESIGNS: '/api/design/my-designs',
+      DESIGN_BY_ID: (id: string) => `/api/design/${id}`,
+      UPDATE_DESIGN: (id: string) => `/api/design/${id}`,
+      APPROVE_DESIGN: (id: string) => `/api/design/${id}/approve`,
+      PRODUCT_FRAMES: (productId: string) => `/api/design/frames/${productId}`
+    },
+
     // Finance endpoints
     FINANCE: {
       PAYMENTS: '/api/finance/payments',
       WALLET: '/api/finance/wallet',
-      TRANSACTIONS: '/api/finance/transactions'
+      TRANSACTIONS: '/api/finance/transactions',
+      WALLET_BALANCE: '/api/finance/wallet/balance',
+      WALLET_OVERVIEW: '/api/finance/wallet/overview',
+      LEDGER: '/api/finance/ledger',
+      TOPUP_CONFIG: '/api/finance/topup/config',
+      TOPUP_PREVIEW: '/api/finance/topup/preview',
+      ADD_FUNDS: '/api/finance/wallet/add-funds',
+      RAZORPAY_INITIATE: '/api/finance/razorpay/initiate',
+      RAZORPAY_VERIFY: '/api/finance/razorpay/verify',
+      TRANSACTION_HISTORY: '/api/finance/transactions/history'
+    },
+
+    // Payment endpoints
+    PAYMENT: {
+      CREATE: '/api/payment/create',
+      VERIFY: '/api/payment/verify'
+    },
+
+    // User endpoints
+    USER: {
+      PROFILE: '/api/user/profile',
+      ADDRESSES: '/api/user/addresses'
+    },
+
+    // Wishlist endpoints
+    WISHLIST: {
+      GET: '/api/wishlist',
+      ADD: '/api/wishlist/add',
+      REMOVE: (productId: string) => `/api/wishlist/${productId}`,
+      CLEAR: '/api/wishlist/clear'
+    },
+
+    // Notifications endpoints
+    NOTIFICATIONS: {
+      GET_ALL: '/api/notifications',
+      GET_SUMMARY: '/api/notifications/summary',
+      MARK_READ: (id: string) => `/api/notifications/${id}/read`,
+      MARK_ALL_READ: '/api/notifications/mark-all-read'
+    },
+
+    // Tickets/Support endpoints
+    TICKETS: {
+      CREATE: '/api/tickets',
+      GET_ALL: '/api/tickets',
+      GET_SUMMARY: '/api/tickets/summary',
+      GET_HELP_CENTER: '/api/tickets/help-center',
+      GET_BY_ID: (id: string) => `/api/tickets/${id}`,
+      REPLY: (id: string) => `/api/tickets/${id}/reply`,
+      ASSIGN: (id: string) => `/api/tickets/${id}/assign`,
+      UPDATE_STATUS: (id: string) => `/api/tickets/${id}/status`,
+      ESCALATE: (id: string) => `/api/tickets/${id}/escalate`
     },
 
     // Admin endpoints
