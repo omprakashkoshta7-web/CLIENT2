@@ -327,7 +327,7 @@ export async function exampleClearWishlist() {
 
     const response = await userService.clearWishlist();
     console.log('Wishlist cleared successfully');
-    return response.data;
+    return response.data || response;
   } catch (error: any) {
     console.error('Failed to clear wishlist:', error.response?.data?.message);
     throw error;

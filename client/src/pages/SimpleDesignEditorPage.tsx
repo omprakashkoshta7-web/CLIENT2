@@ -62,7 +62,7 @@ const SimpleDesignEditorPage: React.FC = () => {
           setCanvas(newCanvas);
 
           // STEP 2: Load frame image from product
-          const frameUrl = (productData?.images?.[0] || productData?.thumbnail) as string | undefined;
+          const frameUrl = productData?.images?.[0] || productData?.thumbnail;
           if (frameUrl) {
             loadFrameImage(newCanvas, frameUrl);
           }
