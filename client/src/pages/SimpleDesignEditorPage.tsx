@@ -8,7 +8,8 @@ import orderService from '../services/order.service';
 interface Product {
   _id: string;
   name: string;
-  image: string;
+  image?: string;
+  images?: string[];
   thumbnail?: string;
   sale_price?: number;
   discountedPrice?: number;
@@ -94,7 +95,8 @@ const SimpleDesignEditorPage: React.FC = () => {
           selectable: false,
           evented: false,
         });
-        targetCanvas.setBackgroundImage(img as fabric.Image, targetCanvas.renderAll.bind(targetCanvas));
+        targetCanvas.backgroundImage = img as fabric.Image;
+        targetCanvas.renderAll();
       })
       .catch((err) => {
         console.warn('Failed to load frame image:', err);

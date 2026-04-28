@@ -72,7 +72,7 @@ const defaultPages = (): EditorPage[] => [
 const DesignEditorPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { isAuthenticated, openLoginModal } = useAuth();
+  const { isAuthenticated } = useAuth();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
@@ -105,7 +105,7 @@ const DesignEditorPage: React.FC = () => {
   const [savedDesignId, setSavedDesignId] = useState<string | null>(null);
 
   const productId = searchParams.get('productId');
-  const flow = searchParams.get('flow') || 'gifting';
+  const flow = (searchParams.get('flow') || 'gifting') as 'gifting' | 'shopping' | 'business_printing';
   const designMode = (searchParams.get('designMode') || 'normal') as 'premium' | 'normal';
   const categoryParam = searchParams.get('category') || '';
   const activePage = useMemo(
@@ -720,7 +720,7 @@ const DesignEditorPage: React.FC = () => {
     console.log('[addImageToCanvas] Adding image from:', src.substring(0, 50) + '...');
     
     // For data URLs, don't use crossOrigin; for external URLs, use it
-    const options = src.startsWith('data:') ? {} : { crossOrigin: 'anonymous' };
+    const options: any = src.startsWith('data:') ? {} : { crossOrigin: 'anonymous' };
     
     fabric.Image.fromURL(src, options).then((img: any) => {
       console.log('[addImageToCanvas] Image loaded, dimensions:', img.width, 'x', img.height);
@@ -879,9 +879,7 @@ const DesignEditorPage: React.FC = () => {
     // Check if user is logged in
     if (!isAuthenticated) {
       alert('Please login to add items to cart');
-      if (openLoginModal) {
-        openLoginModal();
-      }
+      navigate('/');
       return;
     }
 
@@ -923,7 +921,7 @@ const DesignEditorPage: React.FC = () => {
         designId,
         thumbnail: designPreview, // Use compressed preview as thumbnail
         designPreview, // Also send as designPreview for cart display
-        designJson: null, // Don't send heavy JSON
+        designJson: undefined, // Don't send heavy JSON
         designName: `${product.name || 'Design'} editor`,
         options: {
           source: 'design-editor',

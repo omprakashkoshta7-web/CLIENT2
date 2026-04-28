@@ -599,7 +599,7 @@ class ProductService {
             page: params?.page || 1,
             limit: params?.limit || 10,
             total: 0,
-            totalPages: 0
+            pages: 0
           }
         },
         message: error.message || 'Failed to fetch business products'

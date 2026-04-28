@@ -106,12 +106,9 @@ export async function exampleUpdateNotifications() {
  */
 export async function exampleRequestDataExport() {
   try {
-    const response = await userService.requestDataExport({
-      reason: 'Moving to another platform',
-    });
+    const response = await userService.requestDataExport();
 
-    console.log('Data export requested:', response.data.privacyRequests);
-    console.log('Status:', response.data.privacyRequests?.dataExportStatus);
+    console.log('Data export requested:', response.data);
     return response.data;
   } catch (error: any) {
     console.error('Failed to request data export:', error.response?.data?.message);
@@ -124,19 +121,9 @@ export async function exampleRequestDataExport() {
  */
 export async function exampleRequestAccountDeletion() {
   try {
-    const response = await userService.requestAccountDeletion({
-      reason: 'Not using the service anymore',
-    });
+    const response = await userService.requestAccountDeletion('Not using the service anymore');
 
-    console.log('Account deletion requested:', response.data.privacyRequests);
-    const status = response.data.privacyRequests?.accountDeletionStatus;
-
-    if (status === 'blocked_active_orders') {
-      console.warn('Account deletion blocked: You have active orders');
-    } else if (status === 'requested') {
-      console.log('Account will be deleted in 7 days');
-    }
-
+    console.log('Account deletion requested:', response.data);
     return response.data;
   } catch (error: any) {
     console.error('Failed to request account deletion:', error.response?.data?.message);
@@ -153,11 +140,11 @@ export async function exampleRequestAccountDeletion() {
  */
 export async function exampleGetAllAddresses() {
   try {
-    const response = await userService.getAllAddresses();
+    const response = await userService.getAddresses();
     console.log('Addresses:', response.data);
 
     // Find default address
-    const defaultAddress = response.data.find((addr) => addr.isDefault);
+    const defaultAddress = response.data.find((addr: any) => addr.isDefault);
     console.log('Default address:', defaultAddress);
 
     return response.data;
@@ -222,7 +209,7 @@ export async function exampleUpdateAddress(addressId: string) {
 }
 
 /**
- * Example 10: Update GPS Location
+ * Example 10: Update GPS Location (via updateAddress)
  */
 export async function exampleUpdateGPSLocation(addressId: string) {
   try {
@@ -234,12 +221,14 @@ export async function exampleUpdateGPSLocation(addressId: string) {
       );
     });
 
-    const response = await userService.updateGPSLocation(addressId, {
-      lat: position.latitude,
-      lng: position.longitude,
+    const response = await userService.updateAddress(addressId, {
+      location: {
+        lat: position.latitude,
+        lng: position.longitude,
+      }
     });
 
-    console.log('GPS location updated:', response.data.location);
+    console.log('GPS location updated:', response.data);
     return response.data;
   } catch (error: any) {
     console.error('Failed to update GPS location:', error.message);
@@ -419,7 +408,7 @@ export async function exampleBatchAddAddresses(addresses: any[]) {
 export async function exampleSearchWishlist(searchProductId: string) {
   try {
     const wishlist = await userService.getWishlist();
-    const found = wishlist.data.find((item) => item.productId === searchProductId);
+    const found = wishlist.data?.find((item: any) => item.productId === searchProductId);
 
     if (found) {
       console.log('Product found in wishlist:', found);
@@ -439,8 +428,8 @@ export async function exampleSearchWishlist(searchProductId: string) {
  */
 export async function exampleGetDefaultAddress() {
   try {
-    const addresses = await userService.getAllAddresses();
-    const defaultAddress = addresses.data.find((addr) => addr.isDefault);
+    const addresses = await userService.getAddresses();
+    const defaultAddress = addresses.data.find((addr: any) => addr.isDefault);
 
     if (defaultAddress) {
       console.log('Default address:', defaultAddress);
@@ -479,20 +468,9 @@ export async function exampleExportUserData() {
   try {
     console.log('Requesting data export...');
 
-    const response = await userService.requestDataExport({
-      reason: 'User requested data export',
-    });
+    const response = await userService.requestDataExport();
 
-    const status = response.data.privacyRequests?.dataExportStatus;
-    console.log('Export status:', status);
-
-    if (status === 'requested') {
-      console.log('Your data export has been requested. You will receive an email with download link soon.');
-    } else if (status === 'processing') {
-      console.log('Your data is being processed. Please wait...');
-    } else if (status === 'completed') {
-      console.log('Your data export is ready for download!');
-    }
+    console.log('Export status:', response.data);
 
     return response.data;
   } catch (error: any) {
@@ -518,19 +496,11 @@ export async function exampleDeleteAccountWithConfirmation() {
 
     // Step 2: Request deletion
     console.log('Requesting account deletion...');
-    const response = await userService.requestAccountDeletion({
-      reason: 'User requested account deletion',
-    });
+    const response = await userService.requestAccountDeletion('User requested account deletion');
 
-    const status = response.data.privacyRequests?.accountDeletionStatus;
-
-    if (status === 'blocked_active_orders') {
-      console.error('Cannot delete account: You have active orders. Please complete or cancel them first.');
-    } else if (status === 'requested') {
-      console.log('Your account deletion has been requested.');
-      console.log('Your account will be permanently deleted in 7 days.');
-      console.log('You can cancel this request by logging in within 7 days.');
-    }
+    console.log('Your account deletion has been requested.');
+    console.log('Your account will be permanently deleted in 7 days.');
+    console.log('You can cancel this request by logging in within 7 days.');
 
     return response.data;
   } catch (error: any) {

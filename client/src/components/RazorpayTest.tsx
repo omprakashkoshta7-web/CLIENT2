@@ -113,10 +113,10 @@ const RazorpayTest: React.FC = () => {
         });
         
         console.log('✅ Real checkout result:', checkoutResult);
-        setResult(prev => ({ ...prev, checkoutResult }));
+        setResult((prev: any) => ({ ...prev, checkoutResult }));
       } catch (checkoutErr: any) {
         console.log('ℹ️ Checkout cancelled or failed:', checkoutErr.message);
-        setResult(prev => ({ ...prev, checkoutError: checkoutErr.message }));
+        setResult((prev: any) => ({ ...prev, checkoutError: checkoutErr.message }));
       }
 
     } catch (err: any) {
@@ -161,7 +161,7 @@ const RazorpayTest: React.FC = () => {
         });
         
         console.log('✅ Mock checkout result:', checkoutResult);
-        setResult(prev => ({ ...prev, checkoutResult }));
+        setResult((prev: any) => ({ ...prev, checkoutResult }));
       } catch (checkoutErr: unknown) {
         console.log('ℹ️ Mock checkout handled:', checkoutErr);
         // Mock checkout will return mock data
@@ -170,7 +170,7 @@ const RazorpayTest: React.FC = () => {
           razorpayPaymentId: `pay_mock_${Date.now()}`,
           razorpaySignature: 'mock_signature_verified'
         };
-        setResult(prev => ({ ...prev, checkoutResult: mockCheckoutResult }));
+        setResult((prev: any) => ({ ...prev, checkoutResult: mockCheckoutResult }));
       }
 
     } catch (err: any) {
