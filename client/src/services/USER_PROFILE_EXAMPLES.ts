@@ -301,7 +301,7 @@ export async function exampleRemoveFromWishlist(productId: string) {
   try {
     const response = await userService.removeFromWishlist(productId);
     console.log('Product removed from wishlist');
-    console.log('Total items in wishlist:', response.data.length);
+    console.log('Total items in wishlist:', response.data?.length);
     return response.data;
   } catch (error: any) {
     if (error.response?.status === 404) {

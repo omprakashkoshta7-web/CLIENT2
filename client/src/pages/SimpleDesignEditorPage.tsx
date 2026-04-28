@@ -8,7 +8,6 @@ import orderService from '../services/order.service';
 interface Product {
   _id: string;
   name: string;
-  image?: string;
   images?: string[];
   thumbnail?: string;
   sale_price?: number;
@@ -63,7 +62,7 @@ const SimpleDesignEditorPage: React.FC = () => {
           setCanvas(newCanvas);
 
           // STEP 2: Load frame image from product
-          const frameUrl = (productData?.image || productData?.images?.[0] || productData?.thumbnail) as string | undefined;
+          const frameUrl = (productData?.images?.[0] || productData?.thumbnail) as string | undefined;
           if (frameUrl) {
             loadFrameImage(newCanvas, frameUrl);
           }
